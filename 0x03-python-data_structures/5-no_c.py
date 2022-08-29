@@ -7,4 +7,4 @@ def no_c(my_string):
         if x == 'C':
             l.remove('C')
     my_string = "".join(l)
-    return "";
+    return mt_string;
