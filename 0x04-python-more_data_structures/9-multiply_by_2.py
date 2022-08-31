@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-def simple_delete(a_dictionary, key=""):
-    try:
-        del a_dictionary[key]
-        return (a_dictionary)
-    except KeyError:
-        return (a_dictionary)
+def multiply_by_2(a_dictionary):
+    New_dic = {}
+    for i in a_dictionary:
+        Newvalue = (a_dictionary.get(i)) * 2
+        New_dic.update({i: Newvalue})
+    return (New_dic)
