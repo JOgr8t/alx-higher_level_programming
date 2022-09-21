@@ -1,4 +1,13 @@
 #!/usr/bin/python3
-def magic_string():
-    setattr(magic_string, "n", getattr(magic_string, "n", 0) + 1)
-    return ("BestSchool, " * getattr(magic_string, "n", 0))[:-2]
+"""
+    101-locked_class: class LockedClass
+"""
+
+
+class LockedClass:
+    """
+        A class that can only have one attribute first_name.
+        Attribute:
+             first_name (str): name
+    """
+    __slots__ = ['first_name']
