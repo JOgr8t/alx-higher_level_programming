@@ -1,52 +1,51 @@
 #!/usr/bin/python3
-import sys
+"""
+Reads from standard input and computes metrics
+"""
 
 
-def print_info():
-    print('File size: {:d}'.format(file_size))
+if __name__ == "__main__":
+    import sys
 
-    for scode, code_times in sorted(status_codes.items()):
-        if code_times > 0:
-            print('{}: {:d}'.format(scode, code_times))
+    stdin = sys.stdin
 
+    c = 0
+    size = 0
+    vd = ['200', '301', '400', '401', '403', '404', '405', '500']
+    st = {}
 
-status_codes = {
-    '200': 0,
-    '301': 0,
-    '400': 0,
-    '401': 0,
-    '403': 0,
-    '404': 0,
-    '405': 0,
-    '500': 0
-}
+    try:
+        for line in stdin:
+            if c == 10:
+                print("File size: {}".format(size))
+                for i in sorted(st):
+                    print("{}: {}".format(i, st[i]))
+                c = 1
+            else:
+                c = c + 1
 
-lc = 0
-file_size = 0
+            line = line.split()
 
-try:
-    for line in sys.stdin:
-        if lc != 0 and lc % 10 == 0:
-            print_info()
+            try:
+                size = size + int(line[-1])
+            except (IndexError, ValueError):
+                pass
 
-        pieces = line.split()
+            try:
+                if line[-2] in vd:
+                    if st.get(line[-2], -1) == -1:
+                        st[line[-2]] = 1
+                    else:
+                        st[line[-2]] = st[line[-2]] + 1
+            except IndexError:
+                pass
 
-        try:
-            status = int(pieces[-2])
+        print("File size: {}".format(size))
+        for i in sorted(st):
+            print("{}: {}".format(i, st[i]))
 
-            if str(status) in status_codes.keys():
-                status_codes[str(status)] += 1
-        except:
-            pass
-
-        try:
-            file_size += int(pieces[-1])
-        except:
-            pass
-
-        lc += 1
-
-    print_info()
-except KeyboardInterrupt:
-    print_info()
-    raise
+    except KeyboardInterrupt:
+        print("File size: {}".format(size))
+        for i in sorted(st):
+            print("{}: {}".format(i, st[i]))
+        raise
